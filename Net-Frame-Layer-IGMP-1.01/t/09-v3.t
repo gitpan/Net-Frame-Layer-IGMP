@@ -17,7 +17,7 @@ my ($igmp, $qry, $rpt1, $rpt2, $packet, $decode, $expectedOutput);
 # v3 query
 $igmp = Net::Frame::Layer::IGMP->new;
 $qry  = Net::Frame::Layer::IGMP::v3Query->new(sourceAddress=>['1.1.1.1']);
-$qry->pack;
+$qry->computeLengths;
 
 $expectedOutput = 'IGMP: type:0x11  maxResp:0  checksum:0x0000
 IGMP: groupAddress:0.0.0.0
@@ -54,8 +54,8 @@ $decode->print eq $expectedOutput;
 $igmp = Net::Frame::Layer::IGMP->v3report(numGroupRecs=>2);
 $rpt1 = Net::Frame::Layer::IGMP::v3Report->new(sourceAddress=>['1.1.1.1','2.2.2.2'],auxData=>"aux Data is present");
 $rpt2 = Net::Frame::Layer::IGMP::v3Report->new;
-$rpt1->pack;
-$rpt2->pack;
+$rpt1->computeLengths;
+$rpt2->computeLengths;
 
 $expectedOutput = "IGMP: type:0x22  maxResp:0  checksum:0x0000
 IGMP: reserved:0  numGroupRecs:2

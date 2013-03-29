@@ -1,7 +1,7 @@
 eval "use Test::Pod::Coverage tests => 3";
 if ($@) {
    use Test;
-   plan(tests => 3);
+   plan(tests => 1);
    skip("Test::Pod::Coverage required for testing");
 }
 else {

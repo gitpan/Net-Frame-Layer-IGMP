@@ -67,24 +67,6 @@ sub getLength {
 sub pack {
    my $self = shift;
 
-   # Calculate auxDataLen if auxData and auxDataLen = 0
-   if (($self->auxData ne "\0") && ($self->auxDataLen == 0)) {
-      # auxDataLen is number of 32-bit words
-      if (my $mod = (length($self->auxData) * 8) % 32) {
-          my $pad = (32 - $mod)/8;
-          my $auxData = $self->auxData;
-          # Add padding if required to make 32-bit flush
-          $auxData .= "\0"x$pad;
-          $self->auxData($auxData)
-      }
-      $self->auxDataLen(length($self->auxData)/4)
-   }
-
-   # Calculate numSources from sourceAddress array items
-   if (scalar($self->sourceAddress) && ($self->numSources == 0)) {
-      $self->numSources(scalar($self->sourceAddress))
-   }
-
    my $raw = $self->SUPER::pack('CCna4',
       $self->type,
       $self->auxDataLen,
@@ -150,6 +132,30 @@ sub encapsulate {
    }
 
    NF_LAYER_NONE;
+}
+
+sub computeLengths {
+   my $self = shift;
+
+   # Calculate auxDataLen if auxData and auxDataLen = 0
+   if (($self->auxData ne "\0") && ($self->auxDataLen == 0)) {
+      # auxDataLen is number of 32-bit words
+      if (my $mod = (length($self->auxData) * 8) % 32) {
+          my $pad = (32 - $mod)/8;
+          my $auxData = $self->auxData;
+          # Add padding if required to make 32-bit flush
+          $auxData .= "\0"x$pad;
+          $self->auxData($auxData)
+      }
+      $self->auxDataLen(length($self->auxData)/4)
+   }
+
+   # Calculate numSources from sourceAddress array items
+   if (scalar($self->sourceAddress) && ($self->numSources == 0)) {
+      $self->numSources(scalar($self->sourceAddress))
+   }
+
+   return 1;
 }
 
 sub print {

@@ -4,7 +4,7 @@
 package Net::Frame::Layer::IGMP;
 use strict; use warnings;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 use Net::Frame::Layer qw(:consts :subs);
 use Exporter;
@@ -26,8 +26,8 @@ our @EXPORT_OK = (
    @{$EXPORT_TAGS{consts}},
 );
 
-use constant NF_IGMP_ALLIGMPRTRS      => '224.0.0.22';
-use constant NF_IGMP_ALLIGMPRTRS_MAC  => '01:00:5e:00:00:16';
+use constant NF_IGMP_ALLIGMPRTRS     => '224.0.0.22';
+use constant NF_IGMP_ALLIGMPRTRS_MAC => '01:00:5e:00:00:16';
 use constant NF_IGMP_TYPE_QUERY    => 0x11;
 use constant NF_IGMP_TYPE_DVMRP    => 0x13;
 use constant NF_IGMP_TYPE_REPORTv1 => 0x12;

@@ -47,11 +47,6 @@ sub getLength {
 sub pack {
    my $self = shift;
 
-   # Calculate numSources from sourceAddress array items
-   if (scalar($self->sourceAddress) && ($self->numSources == 0)) {
-      $self->numSources(scalar($self->sourceAddress))
-   }
-
    my $resv   = Bit::Vector->new_Dec(4, $self->resv);
    my $sFlag  = Bit::Vector->new_Dec(1, $self->sFlag);
    my $qqic   = Bit::Vector->new_Dec(3, $self->qrv);
@@ -106,6 +101,17 @@ sub encapsulate {
    return $self->nextLayer if $self->nextLayer;
 
    NF_LAYER_NONE;
+}
+
+sub computeLengths {
+   my $self = shift;
+
+   # Calculate numSources from sourceAddress array items
+   if (scalar($self->sourceAddress) && ($self->numSources == 0)) {
+      $self->numSources(scalar($self->sourceAddress))
+   }
+
+   return 1;
 }
 
 sub print {
